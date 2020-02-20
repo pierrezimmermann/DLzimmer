@@ -13,6 +13,10 @@ from processData import *
 
 
 images, labels = load_images()
+distinct_labels, labels_count = np.unique(labels, return_counts=true)
+class_weights = {}
+for k in range(50):
+    class_weights[k] = 1/labels_count[distinct_labels.indexOf(k)]*len(labels)
 p = np.random.permutation(range(len(images)))
 images, labels = images[p], labels[p]
 NUM_TEST = 800
