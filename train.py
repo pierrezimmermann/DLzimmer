@@ -12,31 +12,35 @@ from model import CNN
 from processData import *
 
 
-images, labels = load_resized_images()
+images, labels = load_images()
 p = np.random.permutation(range(len(images)))
 images, labels = images[p], labels[p]
-NUM_VAL = 1000
-NUM_TEST = 1000
+NUM_VAL = 200
+NUM_TEST = 200
 testX, testY = images[0:NUM_TEST].copy(), labels[0:NUM_TEST].copy()
 valX, valY = images[NUM_TEST:NUM_VAL +
                     NUM_TEST].copy(), labels[NUM_TEST:NUM_VAL+NUM_TEST].copy()
 trainX, trainY = images[:NUM_VAL+NUM_TEST], labels[:NUM_VAL+NUM_TEST]
 
+trainX = trainX.astype('float32')
+valX = valX.astype('float32')
+testX = testX.astype('float32')
+
 train_ds = tf.data.Dataset.from_tensor_slices((trainX, trainY))
 val_ds = tf.data.Dataset.from_tensor_slices((valX, valY))
 
-BATCH_SIZE = 8
+BATCH_SIZE = 32
 batched_train_ds = train_ds.batch(BATCH_SIZE)
 batched_val_ds = val_ds.batch(BATCH_SIZE)
 
 model = CNN()
-model.build(input_shape=(BATCH_SIZE, 641, 432, 1))
+model.build(input_shape=(BATCH_SIZE, 30, 30, 3))
 
 
 learning_rate = 0.001
-optimizer = tf.optimizer.SGD(learning_rate)
+optimizer = tf.keras.optimizers.SGD(learning_rate)
 
-loss_object = tf.keras.losses.SparseCategoricalCrossEntropy()
+loss_object = tf.keras.losses.SparseCategoricalCrossentropy()
 
 train_loss = tf.keras.metrics.Mean(name='train_loss')
 train_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(
