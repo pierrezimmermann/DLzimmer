@@ -15,8 +15,8 @@ from processData import *
 images, labels = load_images()
 p = np.random.permutation(range(len(images)))
 images, labels = images[p], labels[p]
-NUM_VAL = 200
-NUM_TEST = 200
+NUM_VAL = 800
+NUM_TEST = 800
 testX, testY = images[0:NUM_TEST].copy(), labels[0:NUM_TEST].copy()
 valX, valY = images[NUM_TEST:NUM_VAL +
                     NUM_TEST].copy(), labels[NUM_TEST:NUM_VAL+NUM_TEST].copy()
@@ -29,16 +29,16 @@ testX = testX.astype('float32')
 train_ds = tf.data.Dataset.from_tensor_slices((trainX, trainY))
 val_ds = tf.data.Dataset.from_tensor_slices((valX, valY))
 
-BATCH_SIZE = 32
+BATCH_SIZE = 64
 batched_train_ds = train_ds.batch(BATCH_SIZE)
 batched_val_ds = val_ds.batch(BATCH_SIZE)
 
 model = CNN()
-model.build(input_shape=(BATCH_SIZE, 30, 30, 3))
+model.build(input_shape=(BATCH_SIZE, 35, 35, 3))
 
 
 learning_rate = 0.001
-optimizer = tf.keras.optimizers.SGD(learning_rate)
+optimizer = tf.keras.optimizers.Adagrad(learning_rate)
 
 loss_object = tf.keras.losses.SparseCategoricalCrossentropy()
 

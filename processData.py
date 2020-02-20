@@ -11,8 +11,8 @@ def load_images():
     for k in range(len(artists)):
         for img in glob.glob('data/best-artworks-of-all-time/images/images/{}/*'.format(artists[k])):
             image = Image.open(img)
-            image = image.resize((30, 30))
-            if np.array(image).shape == (30, 30, 3):
+            image = image.resize((35, 35))
+            if np.array(image).shape == (35, 35, 3):
                 images.append(np.array(image))
                 print(img)
             image.close()
