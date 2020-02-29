@@ -27,7 +27,7 @@ def load_few_images():
     for k in range(len(artists)):
         i = 0
         for img in glob.glob('data/best-artworks-of-all-time/images/images/{}/*'.format(artists[k])):
-            if i < 50:
+            if i < 10:
                 image = Image.open(img)
                 image = image.resize((35, 35))
                 if np.array(image).shape == (35, 35, 3):

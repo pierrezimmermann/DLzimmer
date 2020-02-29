@@ -11,7 +11,7 @@ class CNN(Sequential):
     def __init__(self, name='cnn', **kwargs):
         super(CNN, self).__init__(name=name, **kwargs)
 
-        self.input_layer = InputLayer((30, 30, 1),
+        self.input_layer = InputLayer((35, 35, 3),
                                       name='{}_input'.format(name))
         self.conv_layer_1 = Conv2D(10, (5, 5), activation=tf.nn.relu,
                                    name='{}_conv_1'.format(name))
