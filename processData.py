@@ -11,12 +11,31 @@ def load_images():
     for k in range(len(artists)):
         for img in glob.glob('data/best-artworks-of-all-time/images/images/{}/*'.format(artists[k])):
             image = Image.open(img)
-            image = image.resize((30, 30))
-            if np.array(image).shape == (30, 30, 3):
+            image = image.resize((35, 35))
+            if np.array(image).shape == (35, 35, 3):
                 images.append(np.array(image))
+                labels.append(k)
                 print(img)
             image.close()
-            labels.append(k)
+    return np.array(images), np.array(labels)
+
+
+def load_few_images():
+    images = []
+    labels = []
+    artists = os.listdir('data/best-artworks-of-all-time/images/images')
+    for k in range(len(artists)):
+        i = 0
+        for img in glob.glob('data/best-artworks-of-all-time/images/images/{}/*'.format(artists[k])):
+            if i < 50:
+                image = Image.open(img)
+                image = image.resize((35, 35))
+                if np.array(image).shape == (35, 35, 3):
+                    images.append(np.array(image))
+                    labels.append(k)
+                    print(img)
+                image.close()
+                i += 1
     return np.array(images), np.array(labels)
 
 

@@ -1,12 +1,13 @@
 import tensorflow as tf
 
 from tensorflow.keras import Model
+from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import (
     InputLayer, Conv2D, Flatten, Dense, MaxPool2D
 )
 
 
-class CNN(Model):
+class CNN(Sequential):
     def __init__(self, name='cnn', **kwargs):
         super(CNN, self).__init__(name=name, **kwargs)
 
