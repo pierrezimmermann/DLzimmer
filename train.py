@@ -68,7 +68,7 @@ def test_step(samples, labels):
     val_accuracy(labels, predictions)
 
 
-EPOCHS = 1000
+EPOCHS = 500
 for epoch in range(EPOCHS):
 
     for images, labels in batched_train_ds:

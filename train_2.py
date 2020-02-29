@@ -10,19 +10,16 @@ import glob
 from PIL import Image
 from model import CNN
 from processData import *
-
+from sklearn.utils import class_weight
 
 images, labels = load_images()
-distinct_labels, labels_count = np.unique(labels, return_counts=true)
-class_weights = {}
-for k in range(50):
-    class_weights[k] = 1/labels_count[distinct_labels.indexOf(k)]*len(labels)
 p = np.random.permutation(range(len(images)))
 images, labels = images[p], labels[p]
 NUM_TEST = 800
 testX, testY = images[0:NUM_TEST].copy(), labels[0:NUM_TEST].copy()
 trainX, trainY = images[:NUM_TEST], labels[:NUM_TEST]
-
+class_weight = class_weight.compute_class_weight(
+    'balanced', np.unique(trainY), trainY)
 trainX = trainX.astype('float32')
 testX = testX.astype('float32')
 
@@ -39,7 +36,7 @@ model.compile(optimizer=optimizer, loss=loss_object,
               metrics=['accuracy'])
 
 model.fit(trainX, trainY, batch_size=BATCH_SIZE,
-          epochs=1000, validation_split=0.1)
+          epochs=500, validation_split=0.1, class_weight=class_weight)
 
 
 gty = model.call(testX)
