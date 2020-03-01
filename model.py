@@ -3,7 +3,7 @@ import tensorflow as tf
 from tensorflow.keras import Model
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import (
-    InputLayer, Conv2D, Flatten, Dense, MaxPool2D
+    InputLayer, Conv2D, Flatten, Dense, MaxPool2D, Dropout
 )
 
 
@@ -20,8 +20,12 @@ class CNN(Sequential):
                                    name='{}_conv_2'.format(name))
         self.pool_layer_2 = MaxPool2D(name='{}_pool_2'.format(name))
         self.flatten = Flatten(name='{}_flatten'.format(name))
-        self.dense_layer = Dense(500, activation=tf.nn.relu,
-                                 name='{}_dense'.format(name))
+        self.dropout = Dropout(0.5,
+                               name='{}_dropout'.format(name))
+        self.dense_layer_1 = Dense(128, activation=tf.nn.relu,
+                                   name='{}_dense_1'.format(name))
+        self.dense_layer_2 = Dense(500, activation=tf.nn.relu,
+                                   name='{}_dense_2'.format(name))
         self.output_layer = Dense(50, activation=tf.nn.softmax)
 
     def call(self, inputs):
@@ -31,6 +35,8 @@ class CNN(Sequential):
         net = self.conv_layer_2(net)
         net = self.pool_layer_2(net)
         net = self.flatten(net)
-        net = self.dense_layer(net)
+        net = self.dropout(net)
+        net = self.dense_layer_1(net)
+        net = self.dense_layer_2(net)
         net = self.output_layer(net)
         return net

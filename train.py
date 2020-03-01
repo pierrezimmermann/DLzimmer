@@ -20,7 +20,7 @@ NUM_TEST = 800
 testX, testY = images[0:NUM_TEST].copy(), labels[0:NUM_TEST].copy()
 valX, valY = images[NUM_TEST:NUM_VAL +
                     NUM_TEST].copy(), labels[NUM_TEST:NUM_VAL+NUM_TEST].copy()
-trainX, trainY = images[:NUM_VAL+NUM_TEST], labels[:NUM_VAL+NUM_TEST]
+trainX, trainY = images[NUM_VAL+NUM_TEST:], labels[NUM_VAL+NUM_TEST:]
 
 trainX = trainX.astype('float32')
 valX = valX.astype('float32')
