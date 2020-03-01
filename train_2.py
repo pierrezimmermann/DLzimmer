@@ -31,9 +31,9 @@ testX = testX.astype('float32')
 
 
 BATCH_SIZE = 64
-learning_rate = 0.001
+learning_rate = 0.002
 
-optimizer = tf.keras.optimizers.Adam(learning_rate)
+optimizer = tf.keras.optimizers.Adamax(learning_rate)
 loss_object = tf.keras.losses.SparseCategoricalCrossentropy()
 
 model = CNN()
