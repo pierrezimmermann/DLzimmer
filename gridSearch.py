@@ -71,7 +71,7 @@ def create_model_optimizer(optimizer=tf.keras.optimizers.SGD(0.001)):
 
 
 # Grid search to determine the best optimizer given a number of epochs and a batch_size
-def gridSearchOptimizer(epochs=400, batch_size=64):
+def grid_search_optimizer(epochs=400, batch_size=64):
     model = KerasClassifier(
         build_fn=create_model_optimizer, epochs=epochs, batch_size=batch_size)
     optimizer = ['SGD', 'RMSprop', 'Adagrad',
@@ -100,7 +100,7 @@ def create_model_learning_rate(learning_rate=0.001):
 
 
 # Grid search to determine the optimal learning rate given the number of epochs and the batch_size
-def gridSearchLearningRate(epochs=300, batch_size=64):
+def grid_search_learning_rate(epochs=400, batch_size=64):
     model = KerasClassifier(
         build_fn=create_model_learning_rate, epochs=epochs, batch_size=batch_size)
     learning_rate = [0.0001, 0.001, 0.01, 0.1]
@@ -117,7 +117,32 @@ def gridSearchLearningRate(epochs=300, batch_size=64):
         print("%f (%f) with: %r" % (mean, stdev, param))
 
 
-gridSearchLearningRate()
+# remplacer opti et learning rate par valeurs déterminées par grid search
+def create_model_dropout_rate(dropout_rate=0.5, optimizer=tf.keras.optimizers.SGD(0.01)):
+    model = CNN(dropout_rate=dropout_rate)
+    loss_object = tf.keras.losses.SparseCategoricalCrossentropy()
+    model.compile(optimizer=optimizer, loss=loss_object, metrics=['accuracy'])
+    return model
+
+
+def grid_search_dropout_rate(epochs=400, batch_size=64):
+    model = KerasClassifier(
+        build_fn=create_model_dropout_rate, epochs=epochs, batch_size=batch_size)
+    dropout_rate = [0.0, 0.2, 0.4, 0.6, 0.8]
+    param_grid = dict(dropout_rate=dropout_rate)
+    grid = GridSearchCV(estimator=model, param_grid=param_grid, n_jobs=1, scoring=[
+                        'accuracy'], refit='accuracy', cv=2)
+    grid_result = grid.fit(X, Y)
+    print("Best: %f using %s" %
+          (grid_result.best_score_, grid_result.best_params_))
+    means = grid_result.cv_results_['mean_test_accuracy']
+    stds = grid_result.cv_results_['std_test_accuracy']
+    params = grid_result.cv_results_['params']
+    for mean, stdev, param in zip(means, stds, params):
+        print("%f (%f) with: %r" % (mean, stdev, param))
+
+
+grid_search_dropout_rate()
 
 
 def grid_search_weight_init():

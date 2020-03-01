@@ -5,10 +5,11 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import (
     InputLayer, Conv2D, Flatten, Dense, MaxPool2D, Dropout
 )
+from tensorflow.keras.constraints import max_norm
 
 
 class CNN(Sequential):
-    def __init__(self, name='cnn', **kwargs):
+    def __init__(self, name='cnn', dropout_rate=0.5, **kwargs):
         super(CNN, self).__init__(name=name, **kwargs)
 
         self.input_layer = InputLayer((35, 35, 3),
@@ -20,7 +21,7 @@ class CNN(Sequential):
                                    name='{}_conv_2'.format(name))
         self.pool_layer_2 = MaxPool2D(name='{}_pool_2'.format(name))
         self.flatten = Flatten(name='{}_flatten'.format(name))
-        self.dropout = Dropout(0.5,
+        self.dropout = Dropout(dropout_rate,
                                name='{}_dropout'.format(name))
         self.dense_layer_1 = Dense(128, activation=tf.nn.relu,
                                    name='{}_dense_1'.format(name))
