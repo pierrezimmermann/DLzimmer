@@ -32,12 +32,13 @@ val_ds = tf.data.Dataset.from_tensor_slices((valX, valY))
 BATCH_SIZE = 64
 batched_train_ds = train_ds.batch(BATCH_SIZE)
 batched_val_ds = val_ds.batch(BATCH_SIZE)
+dropout_rate = 0.5
 
-model = CNN()
+model = CNN(dropout_rate=dropout_rate)
 model.build(input_shape=(BATCH_SIZE, 35, 35, 3))
 
 
-learning_rate = 0.002
+learning_rate = 0.0001
 optimizer = tf.keras.optimizers.Adamax(learning_rate)
 
 loss_object = tf.keras.losses.SparseCategoricalCrossentropy()

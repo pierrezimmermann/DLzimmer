@@ -125,6 +125,7 @@ def create_model_dropout_rate(dropout_rate=0.5, optimizer=tf.keras.optimizers.SG
     return model
 
 
+# Grid search to determine the optimal dropout rate
 def grid_search_dropout_rate(epochs=400, batch_size=64):
     model = KerasClassifier(
         build_fn=create_model_dropout_rate, epochs=epochs, batch_size=batch_size)
@@ -142,9 +143,7 @@ def grid_search_dropout_rate(epochs=400, batch_size=64):
         print("%f (%f) with: %r" % (mean, stdev, param))
 
 
-grid_search_dropout_rate()
-
-
+# Grid search for the weight initialization
 def grid_search_weight_init():
     model = KerasClassifier(build_fn=create_model, epochs=100, batch_size=8)
     init_mode = ['uniform', 'lecun_uniform', 'normal', 'zero',
