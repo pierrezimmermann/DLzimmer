@@ -37,8 +37,8 @@ model = CNN()
 model.build(input_shape=(BATCH_SIZE, 35, 35, 3))
 
 
-learning_rate = 0.001
-optimizer = tf.keras.optimizers.Adagrad(learning_rate)
+learning_rate = 0.002
+optimizer = tf.keras.optimizers.Adamax(learning_rate)
 
 loss_object = tf.keras.losses.SparseCategoricalCrossentropy()
 
@@ -68,7 +68,7 @@ def test_step(samples, labels):
     val_accuracy(labels, predictions)
 
 
-EPOCHS = 500
+EPOCHS = 400
 for epoch in range(EPOCHS):
 
     for images, labels in batched_train_ds:

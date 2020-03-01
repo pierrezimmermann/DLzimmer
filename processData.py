@@ -2,6 +2,7 @@ import numpy as np
 import glob
 from PIL import Image
 import os
+from tensorflow.keras.utils import normalize
 
 
 def load_images():
@@ -13,11 +14,11 @@ def load_images():
             image = Image.open(img)
             image = image.resize((35, 35))
             if np.array(image).shape == (35, 35, 3):
-                images.append(np.array(image)/255)
+                images.append(np.array(image))
                 labels.append(k)
                 print(img)
             image.close()
-    return np.array(images), np.array(labels)
+    return normalize(np.array(images)), np.array(labels)
 
 
 def load_few_images():
