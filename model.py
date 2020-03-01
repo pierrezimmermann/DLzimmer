@@ -1,11 +1,9 @@
 import tensorflow as tf
-
 from tensorflow.keras import Model
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import (
     InputLayer, Conv2D, Flatten, Dense, MaxPool2D, Dropout, BatchNormalization
 )
-from tensorflow.keras.constraints import max_norm
 
 
 class CNN(Sequential):
